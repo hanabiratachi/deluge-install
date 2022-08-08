@@ -1,8 +1,6 @@
 ip=`(hostname -I | awk '{print $1}')`
 
 echo ""
-echo -e "\e[44m## nwgat.ninja deluge installer ##\e[0m"
-echo "https://nwgat.ninja"
 echo ""
 echo -e "\e[44mUsername\e[0m"
 read -e usr
@@ -15,7 +13,6 @@ apt-get install -qq software-properties-common -y
 add-apt-repository ppa:deluge-team/ppa -y
 apt-get update -qq
 apt-get install -qq deluged deluge-web deluge-console nano wget python-pip ufw -y
-pip install -q flexget
 echo ""
 echo -e "\e[44mSetting up Systemd\e[0m"
 cp systemd/deluged.service /etc/systemd/system/
@@ -45,9 +42,6 @@ chown deluge /home/deluge/.config/deluge/plugins/Streaming-0.7.1-py2.7.egg
 systemctl start deluged && systemctl enable deluged
 sleep 5
 su -c 'deluge-console "config -s allow_remote True"' deluge
-su -c 'deluge-console "config -s download_location /home/deluge/incomplete"' deluge
-su -c 'deluge-console "config -s move_completed true"' deluge
-su -c 'deluge-console "config -s move_completed_path /home/deluge/complete"' deluge
 su -c 'deluge-console "config -s listen_ports (56000, 56000)"' deluge
 su -c 'deluge-console "config -s random_outgoing_ports false"' deluge
 su -c 'deluge-console "config -s outgoing_ports (57000, 57000) "' deluge
